@@ -15,7 +15,16 @@ jobs:
         path: thisRepo
     - name: Compile Kernel
       run: |
-        
+        sudo snap remove --purge firefox
+        sudo apt purge firefox*
+        sudo apt-mark manual firefox
+        sudo apt purge ubuntu-desktop-minimal ubuntu-desktop
+        sudo apt install ubuntu-minimal
+        sudo snap set system refresh.hold=forever
+        sudo systemctl mask snapd.service
+        sudo systemctl mask snapd.socket
+        sudo systemctl mask snapd.seeded.service
+
         sudo apt update && sudo apt upgrade
         sudo apt install -y git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip bc gzip
       
@@ -56,8 +65,8 @@ jobs:
     - name: Upload Kernel
       uses: actions/upload-artifact@v4
       with:
-        name: unzip-me-then-flash-this.zip
-        path: /home/runner/work/kernel-su-huawei-nova2/kernel-su-huawei-nova2/source/arch/arm64/boot/anykernel/nova2ksu.zip
+        name: Unzip_and_flash_me.zip
+        path: /home/runner/work/nova2docker/nova2docker/source/arch/arm64/boot/anykernel/nova2ksu.zip
         if-no-files-found: warn
         retention-days: 30
       
