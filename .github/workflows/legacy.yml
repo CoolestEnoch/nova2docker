@@ -3,8 +3,6 @@ name: (GCC)Kernel Builder Huawei nova2
 on:
   workflow_dispatch:
   push:
-  schedule:
-    - cron: 0 0 * * 1
 
 jobs:
   build:
@@ -13,7 +11,7 @@ jobs:
     - name: Checkout kernel source
       uses: actions/checkout@v2
       with:
-        repository: CoolestEnoch/kernel-su-huawei-nova2
+        repository: CoolestEnoch/nova2docker
         path: thisRepo
     - name: Integrate KernelSU
       run: |
@@ -27,32 +25,8 @@ jobs:
         rm -rf thisRepo
         sudo cp ./res/libdebuginfod.so.1 /usr/lib
         sudo chmod 777 /usr/lib/libdebuginfod.so.1
-
         
         mv kernel source
-  
-        cd source
-      
-        echo "[+] Append kernel params to kprobes"
-        #echo "CONFIG_KPROBES=y" >> arch/arm64/configs/vendor/cas_defconfig
-        #echo "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/vendor/cas_defconfig
-        #echo "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/vendor/cas_defconfig
-
-        git clone https://github.com/tiann/KernelSU
-        cd KernelSU
-        git stash && git pull
-        cd ..
-        cp -r KernelSU/kernel drivers/kernelsu
-
-        echo "[+] Add kernel su driver to Makefile"
-
-        #echo "obj-y += kernelsu/" >> drivers/Makefile
-        
-        echo "ccflags-y += -std=gnu11" >> drivers/kernelsu/Makefile
-
-        echo "[+] Done."
-        
-        cd ..
         
         git clone https://github.com/CoolestEnoch/kernel-su-xiaomi-cas
         
