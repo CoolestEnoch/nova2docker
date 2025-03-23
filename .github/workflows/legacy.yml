@@ -52,23 +52,26 @@ jobs:
         make -j2
         
         cd arch/arm64/boot
-        mv Image kernel-Image
-        gzip kernel-Image
+        echo "***************************************************************************"
+        echo "md5 of Image = $(md5sum Image)"
+        echo "md5 of Image.gz = $(md5sum Image.gz)"
+        # mv Image kernel-Image
+        # gzip kernel-Image
         
-        wget https://github.com/CoolestEnoch/kernel-su-huawei-nova2/releases/download/20230216-ksu16/nova2-ksu.zip
-        unzip nova2-ksu.zip -d ./anykernel
-        rm anykernel/kernel-Image.gz
-        cp ./kernel-Image.gz anykernel/kernel-Image.gz
-        cd anykernel
-        zip nova2ksu.zip ./*
+        # wget https://github.com/CoolestEnoch/kernel-su-huawei-nova2/releases/download/20230216-ksu16/nova2-ksu.zip
+        # unzip nova2-ksu.zip -d ./anykernel
+        # rm anykernel/kernel-Image.gz
+        # cp ./kernel-Image.gz anykernel/kernel-Image.gz
+        # cd anykernel
+        # zip nova2ksu.zip ./*
 
-    - name: Upload AnyKernel.zip
-      uses: actions/upload-artifact@v4
-      with:
-        name: Unzip_and_flash_me.zip
-        path: /home/runner/work/nova2docker/nova2docker/source/arch/arm64/boot/anykernel/nova2ksu.zip
-        if-no-files-found: warn
-        retention-days: 30
+    # - name: Upload AnyKernel.zip
+      # uses: actions/upload-artifact@v4
+      # with:
+      #   name: Unzip_and_flash_me.zip
+      #   path: /home/runner/work/nova2docker/nova2docker/source/arch/arm64/boot/anykernel/nova2ksu.zip
+      #   if-no-files-found: warn
+      #   retention-days: 30
       
     
 
@@ -87,16 +90,6 @@ jobs:
       with:
         name: Image.gz.zip
         path: /home/runner/work/nova2docker/nova2docker/source/arch/arm64/boot/Image.gz
-        if-no-files-found: warn
-        retention-days: 30
-      
-    
-
-    - name: Upload Kernel
-      uses: actions/upload-artifact@v4
-      with:
-        name: Unzip_and_flash_me.zip
-        path: /home/runner/work/nova2docker/nova2docker/source/arch/arm64/boot/anykernel/nova2ksu.zip
         if-no-files-found: warn
         retention-days: 30
       
